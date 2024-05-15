@@ -74,11 +74,6 @@ function findDomains(board) {
     return domains;
 }
 
-// Return a number from 1 to 9, inclusive.
-function getRandomDigit() {
-    return Math.floor(Math.random() * 9 + 1);
-}
-
 // Render a 9x9 array of sudoku digits as an HTML table.
 function renderSudoku(board) {
     let html = '<table id="sudoku">';
