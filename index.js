@@ -94,10 +94,7 @@ function renderSudoku(board) {
 // Render a web page with a Sudoku board.
 function renderPage(board) {
     document.title = 'Sudoku Explorer';
-    let html = '<div id="container">';
-    html += renderSudoku(board);
-    html += '</div>';
-    return html;
+    return renderSudoku(board);
 }
 
 const board = createSudoku();
