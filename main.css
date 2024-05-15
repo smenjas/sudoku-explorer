@@ -28,9 +28,11 @@ table {
 }
 
 td {
+    font-size: calc(var(--square) * 0.85);
     border: 1px solid black;
     height: var(--square);
     width: var(--square);
+    text-align: center;
 }
 
 .column-2, .column-5 {
