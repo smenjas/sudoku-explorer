@@ -7,15 +7,6 @@ function fillSudoku(value) {
     return board;
 }
 
-// Return a 9x9 array, with some digits filled in.
-function createSudoku() {
-    // Generate an empty 2D array.
-    const board = fillSudoku(0);
-    // Find the domain (possible values) for each square.
-    const domains = findDomains(board);
-    return board;
-}
-
 // Return all the row/column indices in a block, given a row/column.
 function findBlock(i) {
     if (i < 3) {
@@ -63,15 +54,59 @@ function findDomain(board, r, c) {
     return domain;
 }
 
-// Return a 9x9 array of sets of domains (possible values).
-function findDomains(board) {
-    const domains = fillSudoku([]);
+// Return a random candidate from a cell's domain (possible digits).
+function getRandomCandidate(domain) {
+    const candidates = Array.from(domain);
+    const index = Math.floor(Math.random() * candidates.length);
+    return candidates[index];
+}
+
+// Randomly fill a cell with a digit.
+function getRandomCell(board, r, c) {
+    const domain = findDomain(board, r, c);
+    if (domain.size === 0) {
+        //console.log(r, c, "domain is empty");
+        return false;
+    }
+    const digit = getRandomCandidate(domain);
+    board[r][c] = digit;
+    return true;
+}
+
+// Randomly fill cells with digits.
+function getRandomSudoku() {
+    // Generate an empty 2D array.
+    const board = fillSudoku(0);
     for (const r in board) {
         for (const c in board[r]) {
-            domains[r][c] = findDomain(board, r, c);
+            const success = getRandomCell(board, r, c);
+            if (success === false) {
+                return [];
+            }
         }
     }
-    return domains;
+    return board;
+}
+
+// Return a 9x9 array, with some digits filled in.
+function createSudoku() {
+    // If a cell has an empty domain, regenerate the whole board.
+    console.time('createSudoku');
+    const max_iterations = 1e4;
+    let iterations = 0;
+    let board = [];
+    while (iterations < max_iterations) {
+        // Randomly fill cells with digits.
+        board = getRandomSudoku();
+        if (board.length > 0) {
+            console.log({iterations});
+            console.timeEnd('createSudoku');
+            return board;
+        }
+        iterations++;
+    }
+    console.timeEnd('createSudoku');
+    return board;
 }
 
 // Render a 9x9 array of sudoku digits as an HTML table.
