@@ -1,6 +1,10 @@
 // Return a 9x9 array filled with any value.
 function fillSudoku(value) {
-    return Array(9).fill(Array(9).fill(value));
+    const board = [];
+    for (let i = 0; i < 9; i++) {
+        board.push(Array(9).fill(value));
+    }
+    return board;
 }
 
 // Return a 9x9 array, with some digits filled in.
