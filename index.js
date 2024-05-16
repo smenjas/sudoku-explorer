@@ -12,12 +12,10 @@ function findBlock(i) {
     if (i < 3) {
         return new Set([0, 1, 2]);
     }
-    else if (i < 6) {
+    if (i < 6) {
         return new Set([3, 4, 5]);
     }
-    else {
-        return new Set([6, 7, 8]);
-    }
+    return new Set([6, 7, 8]);
 }
 
 // Return the set of possible digits for this square.
@@ -61,28 +59,16 @@ function getRandomCandidate(domain) {
     return candidates[index];
 }
 
-// Randomly fill a cell with a digit.
-function getRandomCell(board, r, c) {
-    const domain = findDomain(board, r, c);
-    if (domain.size === 0) {
-        //console.log(r, c, "domain is empty");
-        return false;
-    }
-    const digit = getRandomCandidate(domain);
-    board[r][c] = digit;
-    return true;
-}
-
-// Randomly fill cells with digits.
+// Return a 9x9 array of random digits, or an empty array.
 function getRandomSudoku() {
-    // Generate an empty 2D array.
     const board = fillSudoku(0);
     for (const r in board) {
         for (const c in board[r]) {
-            const success = getRandomCell(board, r, c);
-            if (success === false) {
+            const domain = findDomain(board, r, c);
+            if (domain.size === 0) {
                 return [];
             }
+            board[r][c] = getRandomCandidate(domain);
         }
     }
     return board;
@@ -95,16 +81,13 @@ function createSudoku() {
     const max_iterations = 1e4;
     let iterations = 0;
     let board = [];
-    while (iterations < max_iterations) {
-        // Randomly fill cells with digits.
+    while (iterations++ < max_iterations) {
         board = getRandomSudoku();
         if (board.length > 0) {
-            console.log({iterations});
-            console.timeEnd('createSudoku');
-            return board;
+            break;
         }
-        iterations++;
     }
+    console.log({iterations});
     console.timeEnd('createSudoku');
     return board;
 }
@@ -112,10 +95,8 @@ function createSudoku() {
 // Render a 9x9 array of sudoku digits as an HTML table.
 function renderSudoku(board) {
     let html = '<table id="sudoku">';
-    // Loop through each row index.
     for (const r in board) {
         html += '<tr>';
-        // Loop through each column index.
         for (const c in board[r]) {
             html += `<td class="row-${r} column-${c}">${board[r][c] || ''}</td>`;
         }
