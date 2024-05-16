@@ -35,6 +35,10 @@ td {
     text-align: center;
 }
 
+.false td {
+    border-color: red;
+}
+
 .column-2, .column-5 {
     border-right-width: var(--thick);
 }
