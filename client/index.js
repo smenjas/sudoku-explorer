@@ -175,7 +175,7 @@ function getPentet() {
 
 // Generate a 9x9 array of bits (binary digits), to show or hide each clue.
 // A one means "show this clue," and a zero means "hide this clue."
-function hideCells() {
+function getCluePattern() {
     const pentets = [];
     for (let i = 0; i < 5; i++) {
         pentets.push(getPentet());
@@ -196,6 +196,23 @@ function hideCells() {
         for (let c = 8; c > 4; c--) {
             pattern[r][c] = pentets[8 - r][8 - c];
         }
+    }
+    return pattern;
+}
+
+function sum2d(matrix) {
+    const f = (acc, n) => acc + n;
+    return matrix.map(a => a.reduce(f)).reduce(f);
+}
+
+function hideCells() {
+    let pattern = [];
+    let clues = 0;
+    // A minimal sudoku cannot have less than 17 clues.
+    while (clues < 17) {
+        pattern = getCluePattern();
+        clues = sum2d(pattern);
+        console.log("There are", clues, "clues.");
     }
     return pattern;
 }
