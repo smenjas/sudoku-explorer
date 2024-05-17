@@ -3,6 +3,9 @@
 This is a sudoku app built with vanilla JavaScript. It's an exercise to learn
 web development fundamentals and chess strategy, using HTML, CSS, & JS.
 
+![Sudoku (light mode)](screenshots/sudoku-light.png)
+![Sudoku (dark mode)](screenshots/sudoku-dark.png)
+
 ## Exercise Constraints
 - The game runs in the browser
 - No libraries, frameworks, templates, or preprocessors
