@@ -77,7 +77,7 @@ function findBlock(i) {
     return new Set([6, 7, 8]);
 }
 
-// Return the set of possible digits for this square.
+// Return the set of possible digits for this cell.
 function findDomain(board, r, c) {
     if (board[r][c] > 0) {
         return new Set(board[r][c]);
@@ -118,7 +118,7 @@ function getRandomCandidate(domain) {
     return candidates[index];
 }
 
-// Return a 9x9 array of random digits, or an empty array.
+// Return a 9x9 array of random digits, or an empty array if a domain is empty.
 function getRandomSudoku() {
     const board = fillSudoku(0);
     for (const r in board) {
@@ -133,10 +133,13 @@ function getRandomSudoku() {
     return board;
 }
 
-// Return a 9x9 array, with some digits filled in.
+// Return a 9x9 array, with a valid sudoku solution.
 function createSudoku() {
     // If a cell has an empty domain, regenerate the whole board.
     console.time('createSudoku');
+    // 90+% of the time, a valid board will occur within 1000 iterations.
+    // 99+% of the time, a valid board will occur within 2000 iterations.
+    // I have not seen a valid board produced in more than 4000 iterations.
     const max_iterations = 1e4;
     let iterations = 0;
     let board = [];
@@ -146,13 +149,14 @@ function createSudoku() {
             break;
         }
     }
-    console.log({iterations});
+    console.log("It took", iterations, "iterations to generate a valid board.");
     console.timeEnd('createSudoku');
     return board;
 }
 
 // Generate an array of 5 bits (binary digits).
-// There must be 1 or 2 ones, and therefor 3 or 4 zeros.
+// There must be 1 or 2 ones, and thus 3 or 4 zeros.
+// A one means "show this clue," and a zero means "hide this clue."
 function getPentet() {
     let shown = 0;
     const pentet = Array(5).fill(0);
@@ -169,7 +173,8 @@ function getPentet() {
     return pentet;
 }
 
-// Generate an array of bits, to show or hide each cell.
+// Generate a 9x9 array of bits (binary digits), to show or hide each clue.
+// A one means "show this clue," and a zero means "hide this clue."
 function hideCells() {
     const pentets = [];
     for (let i = 0; i < 5; i++) {
