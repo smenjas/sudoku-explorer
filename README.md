@@ -13,8 +13,9 @@ web development fundamentals and chess strategy, using HTML, CSS, & JS.
   - [Node.js](https://nodejs.org/)
 
 ## Goals
-- [ ] Generate sudoku puzzles
-- [ ] Offer hints to solve each puzzle
+- [x] Generate sudoku puzzles
+  - [ ] Proper puzzles (exactly one solution)
+  - [ ] Minimal puzzles (every clue is necessary to keep it proper)
 
 ## Development
 Install the dependencies by running:
