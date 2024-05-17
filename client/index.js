@@ -151,14 +151,61 @@ function createSudoku() {
     return board;
 }
 
+// Generate an array of 5 bits (binary digits).
+// There must be 1 or 2 ones, and therefor 3 or 4 zeros.
+function getPentet() {
+    let shown = 0;
+    const pentet = Array(5).fill(0);
+    while (shown < 1) {
+        for (let i = 0; i < 5; i++) {
+            const show = Math.round(Math.random());
+            pentet[i] = show;
+            shown += show;
+            if (shown > 1) {
+                break;
+            }
+        }
+    }
+    return pentet;
+}
+
+// Generate an array of bits, to show or hide each cell.
+function hideCells() {
+    const pentets = [];
+    for (let i = 0; i < 5; i++) {
+        pentets.push(getPentet());
+    }
+    const pattern = fillSudoku(0);
+    for (let r = 0; r < 5; r++) {
+        for (let c = 0; c < 5; c++) {
+            pattern[r][c] = pentets[r][c];
+        }
+        for (let c = 8; c > 4; c--) {
+            pattern[r][c] = pentets[r][8 - c];
+        }
+    }
+    for (let r = 8; r > 4; r--) {
+        for (let c = 0; c < 5; c++) {
+            pattern[r][c] = pentets[8 - r][c];
+        }
+        for (let c = 8; c > 4; c--) {
+            pattern[r][c] = pentets[8 - r][8 - c];
+        }
+    }
+    return pattern;
+}
+
 // Render a 9x9 array of sudoku digits as an HTML table.
 function renderSudoku(board) {
     const valid = checkSolution(board);
+    const pattern = hideCells();
     let html = `<table id="sudoku" class="${valid}">`;
     for (const r in board) {
         html += '<tr>';
         for (const c in board[r]) {
-            html += `<td class="row-${r} column-${c}">${board[r][c] || ''}</td>`;
+            const vis = pattern[r][c] ? "clue" : "empty";
+            const content = pattern[r][c] ? (board[r][c] || '?') : '';
+            html += `<td class="row-${r} column-${c} ${vis}">${content}</td>`;
         }
         html += '</tr>';
     }
