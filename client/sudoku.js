@@ -134,9 +134,11 @@ function getRandomSudoku() {
 }
 
 // Return a 9x9 array, with a valid sudoku solution.
-function createSudoku() {
+function createSudoku(returnIterations = false) {
     // If a cell has an empty domain, regenerate the whole board.
-    console.time('createSudoku');
+    if (returnIterations === false) {
+        console.time('createSudoku');
+    }
     // 90+% of the time, a valid board will occur within 1000 iterations.
     // 99+% of the time, a valid board will occur within 2000 iterations.
     // I have not seen a valid board take more than 4000 iterations.
@@ -152,11 +154,16 @@ function createSudoku() {
     if (iterations >= max_iterations) {
         console.log("Failed to produce a valid board after", iterations, "iterations.");
     }
-    else {
+    else if (returnIterations === false) {
         console.log("It took", iterations, "iterations to generate a valid board.");
     }
-    console.timeEnd('createSudoku');
-    return board;
+    if (returnIterations === false) {
+        console.timeEnd('createSudoku');
+        return board;
+    }
+    else {
+        return iterations;
+    }
 }
 
 // Generate an array of 5 bits (binary digits).
@@ -222,4 +229,4 @@ function hideCells() {
     return pattern;
 }
 
-export { checkSolution, hideCells, createSudoku };
+export { checkSolution, hideCells, createSudoku, getCluePattern, sum2d };

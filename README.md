@@ -26,3 +26,7 @@ Start the node server with:
 ```sh
 npm run dev
 ```
+Show statistics with:
+```sh
+npm run stats
+```
