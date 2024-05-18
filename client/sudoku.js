@@ -177,6 +177,7 @@ function getPentet() {
             const show = Math.round(Math.random());
             pentet[i] = show;
             shown += show;
+            // Restrict clues to 2 per pentet (4 per row).
             if (shown > 1) {
                 break;
             }
@@ -191,6 +192,23 @@ function getCluePattern() {
     const pentets = [];
     for (let i = 0; i < 5; i++) {
         pentets.push(getPentet());
+    }
+    // Restrict clues to 4 per column.
+    for (let c = 0; c < 5; c++) {
+        let sum = 0;
+        for (let r = 0; r < 5; r++) {
+            sum += pentets[r][c];
+        }
+        while (sum > 2) {
+            const rows = new Set([...Array(5).keys()]);
+            const r = getRandomCandidate(rows);
+            if (pentets[r][c] === 0) {
+                continue;
+            }
+            pentets[r][c] = 0;
+            sum--;
+            rows.delete(r);
+        }
     }
     const pattern = fillSudoku(0);
     for (let r = 0; r < 5; r++) {
