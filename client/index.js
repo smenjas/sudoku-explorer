@@ -139,17 +139,22 @@ function createSudoku() {
     console.time('createSudoku');
     // 90+% of the time, a valid board will occur within 1000 iterations.
     // 99+% of the time, a valid board will occur within 2000 iterations.
-    // I have not seen a valid board produced in more than 4000 iterations.
-    const max_iterations = 1e4;
+    // I have not seen a valid board take more than 4000 iterations.
+    const max_iterations = 5e3;
     let iterations = 0;
     let board = [];
-    while (iterations++ < max_iterations) {
+    while (++iterations < max_iterations) {
         board = getRandomSudoku();
         if (board.length > 0) {
             break;
         }
     }
-    console.log("It took", iterations, "iterations to generate a valid board.");
+    if (iterations >= max_iterations) {
+        console.log("Failed to produce a valid board after", iterations, "iterations.");
+    }
+    else {
+        console.log("It took", iterations, "iterations to generate a valid board.");
+    }
     console.timeEnd('createSudoku');
     return board;
 }
