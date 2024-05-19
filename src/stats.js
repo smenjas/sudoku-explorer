@@ -1,4 +1,5 @@
-import { createSudoku, getCluePattern, sum2d } from '../client/sudoku.js';
+import { getCluePattern, sum2d } from '../client/pattern.js';
+import { createSudoku } from '../client/sudoku.js';
 
 function countKeys(obj, key, value = 1) {
     if (key in obj) {
