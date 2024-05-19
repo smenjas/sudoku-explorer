@@ -247,4 +247,4 @@ function hideCells() {
     return pattern;
 }
 
-export { checkSolution, hideCells, createSudoku, getCluePattern, sum2d };
+export { checkSolution, createSudoku, getCluePattern, sum2d, hideCells };
