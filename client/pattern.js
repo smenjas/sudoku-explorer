@@ -72,11 +72,28 @@ function getReflectionPattern() {
     return pattern;
 }
 
+// Generate an array of 9 bits (binary digits).
+// There must be 1 to 4 ones, and thus 5 to 8 zeros.
+function getNontet() {
+    return getRandomBits(9, 4, 1);
+}
+
+// Generate a clue pattern that has symmetry across two orthogonal axes.
+function getRandomPattern() {
+    const nontets = [];
+    for (let i = 0; i < 9; i++) {
+        nontets.push(getNontet());
+    }
+    restrictCluesPerColumn(nontets, 4);
+    return nontets;
+}
+
 // Generate a 9x9 array of bits (binary digits), to show or hide each clue.
 // A one means "show this clue," and a zero means "hide this clue."
 function getCluePattern() {
     const styles = new Set([
         getReflectionPattern,
+        getRandomPattern,
     ]);
     const style = getRandomCandidate(styles);
     return style();
@@ -99,4 +116,4 @@ function hideCells() {
     return pattern;
 }
 
-export { getCluePattern, sum2d, hideCells };
+export { getReflectionPattern, getRandomPattern, getCluePattern, sum2d, hideCells };

@@ -1,4 +1,4 @@
-import { getCluePattern, sum2d } from '../client/pattern.js';
+import { getReflectionPattern, getRandomPattern, getCluePattern, sum2d } from '../client/pattern.js';
 import { createSudoku } from '../client/sudoku.js';
 
 function countKeys(obj, key, value = 1) {
@@ -39,11 +39,11 @@ function showProgress(count, units, wrap = 100) {
 }
 
 // Generate a bunch of clue patterns, and chart how many clues there were.
-function countClues() {
+function countClues(func = getCluePattern) {
     const histo = {};
     let count = 0;
     for (let i = 0; i < 1e6; i++) {
-        const pattern = getCluePattern();
+        const pattern = func();
         const clues = sum2d(pattern);
         if (++count % 1e3 === 0) {
             showProgress(count, "patterns", 1e5);
@@ -53,7 +53,8 @@ function countClues() {
 
     // How are the number of clues distributed?
     console.log("\nHow many clues are there?");
-    showDistribution(histo, 5);
+    console.log("Using:", func.name);
+    showDistribution(histo, 1);
 }
 
 // Generate a bunch of sudoku boards, and chart how many iterations each took.
@@ -71,6 +72,10 @@ function countBoardIterations() {
     showDistribution(histo, 1e3);
 }
 
+countClues(getReflectionPattern);
+console.log("\n================================================================================\n");
+countClues(getRandomPattern);
+console.log("\n================================================================================\n");
 countClues();
 console.log("\n================================================================================\n");
 countBoardIterations();
