@@ -93,10 +93,10 @@ function createSudoku(returnIterations = false) {
         }
     }
     if (iterations >= max_iterations) {
-        console.log("Failed to produce a valid board after", iterations, "iterations.");
+        console.log("Failed to produce a valid board after", iterations, "tries.");
     }
     else if (returnIterations === false) {
-        console.log("It took", iterations, "iterations to generate a valid board.");
+        console.log("It took", iterations, "tries to generate a valid board.");
     }
     if (returnIterations === false) {
         console.timeEnd('createSudoku');
