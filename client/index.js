@@ -1,4 +1,6 @@
-import { checkSolution, hideCells, createSudoku } from './sudoku.js';
+import { checkSolution } from './check.js';
+import { hideCells } from './pattern.js';
+import { createSudoku } from './sudoku.js';
 
 // Render a 9x9 array of sudoku digits as an HTML table.
 function renderSudoku(board) {

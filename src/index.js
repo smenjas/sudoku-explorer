@@ -16,7 +16,9 @@ const server = http.createServer((request, response) => {
         content = fs.readFileSync('client/index.html', 'utf8');
         console.log('HTTP', response.statusCode, request.url);
         break;
+    case '/check.js':
     case '/index.js':
+    case '/pattern.js':
     case '/sudoku.js':
         response.statusCode = 200;
         response.setHeader('Content-Type', 'text/javascript');
