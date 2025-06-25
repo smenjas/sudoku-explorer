@@ -1,6 +1,6 @@
 {
   "name": "sudoku-explorer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "description": "Explore the game of sudoku.",
   "main": "index.js",
