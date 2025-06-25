@@ -33,6 +33,24 @@ const server = http.createServer((request, response) => {
         response.setHeader('Content-Type', 'image/jpeg');
         content = fs.readFileSync('client' + path);
         break;
+    case '/img/sudoku-16.png':
+    case '/img/sudoku-32.png':
+    case '/img/sudoku-57.png':
+    case '/img/sudoku-60.png':
+    case '/img/sudoku-70.png':
+    case '/img/sudoku-72.png':
+    case '/img/sudoku-76.png':
+    case '/img/sudoku-96.png':
+    case '/img/sudoku-120.png':
+    case '/img/sudoku-128.png':
+    case '/img/sudoku-152.png':
+    case '/img/sudoku-167.png':
+    case '/img/sudoku-180.png':
+    case '/img/sudoku-192.png':
+        response.statusCode = 200;
+        response.setHeader('Content-Type', 'image/png');
+        content = fs.readFileSync('client' + path);
+        break;
     default:
         response.statusCode = 404;
         response.setHeader('Content-Type', 'text/html');
